@@ -1,95 +1,117 @@
-[
-  {
-    "name": "^{{serviceName}}$",
-    "http": {
-      "request": {
-        "url": "^{{endpoint}}/mysql$",
-        "method": "^GET$"
-      },
-      "response": {
-        "status": 200
-      }
-    },
-    "aws": {
-      "account_id": "^{{accountId}}$",
-      "xray": {
-        "auto_instrumentation": true,
-        "sdk": "^opentelemetry for"
-      }
-    },
-    "annotations": {
-      "aws.local.service": "^{{serviceName}}$",
-      "aws.local.operation": "^GET mysql$"
-    },
-    "metadata": {
-      "default": {
-        "aws.span.kind": "^LOCAL_ROOT$",
-        "net.protocol.name": "^http$",
-        "otel.resource.telemetry.sdk.name": "^opentelemetry$",
-        "http.route": "^mysql$"
-      }
-    },
-    "subsegments": [
-      {
-        "name": "mysql",
+{
+  "Segments": [
+    {
+      "Document": {
+        "name": "^{{serviceName}}$",
+        "fault": false,
+        "error": false,
+        "throttle": false,
+        "http": {
+          "request": {
+            "url": "^{{endpoint}}/mysql$",
+            "method": "^GET$"
+          },
+          "response": {
+            "status": 200
+          }
+        },
         "aws": {
           "account_id": "^{{accountId}}$",
           "xray": {
             "auto_instrumentation": true,
-            "sdk": "^opentelemetry for"
-          }
+            "sdk": "^opentelemetry for python$"
+          },
+          "cloudwatch_logs": [
+            {
+              "log_group": "^/aws/containerinsights/e2e-python-canary-test/application$"
+            }
+          ]
         },
         "annotations": {
+          "aws.local.service": "^{{serviceName}}$",
           "aws.local.operation": "^GET mysql$"
         },
+        "metadata": {
+          "default": {
+            "otel.resource.aws.log.group.names": "^/aws/containerinsights/e2e-python-canary-test/application$",
+            "otel.resource.service.name": "^{{serviceName}}$",
+            "aws.span.kind": "^LOCAL_ROOT$",
+            "otel.resource.cloud.platform": "^aws_eks$",
+            "EKS.Cluster": "^e2e-python-canary-test$",
+            "otel.resource.telemetry.sdk.name": "^opentelemetry$",
+            "otel.resource.ec2.tag.kubernetes.io/cluster/e2e-python-canary-test": "^owned$",
+            "otel.resource.k8s.container.name": "^back-end$",
+            "otel.resource.cloud.account.id": "^{{accountId}}$",
+            "http.route": "^mysql$",
+            "PlatformType": "^AWS::EKS$",
+            "otel.resource.telemetry.sdk.language": "^python$",
+            "otel.resource.cloud.provider": "^aws$"
+          }
+        },
+        "origin": "^AWS::EKS::Container$",
         "subsegments": [
           {
             "name": "^mysql$",
+            "fault": false,
+            "error": false,
+            "throttle": false,
+            "aws": {
+              "account_id": "^{{accountId}}$",
+              "xray": {
+                "auto_instrumentation": true,
+                "sdk": "^opentelemetry for python$"
+              },
+              "cloudwatch_logs": [
+                {
+                  "log_group": "^/aws/containerinsights/e2e-python-canary-test/application$"
+                }
+              ]
+            },
             "sql": {
-              "url": "^Create connection$",
-              "database_type": "^mysql$"
+              "connection_string": "^localhost/information_schema$",
+              "url": "^SELECT$",
+              "sanitized_query": "^SELECT * FROM tables LIMIT 1;$",
+              "database_type": "^mysql$",
+              "user": "^admin$"
             },
             "annotations": {
+              "aws.local.service": "^{{serviceName}}$",
               "aws.local.operation": "^GET mysql$",
               "aws.remote.resource.type": "^DB::Connection$",
-              "aws.remote.resource.identifier": "{{remoteResourceIdentifier}}",
+              "aws.remote.resource.identifier": "^{{remoteResourceIdentifier}}$",
               "aws.remote.service": "^mysql$",
-              "aws.local.service": "^{{serviceName}}$"
+              "aws.remote.operation": "^SELECT$"
             },
             "metadata": {
               "default": {
                 "aws.span.kind": "^CLIENT$",
-                "network.peer.port": 3306,
-                "network.transport": "^tcp$"
-              }
-            },
-            "namespace": "^remote$"
-          },
-          {
-            "name": "^mysql$",
-            "sql": {
-              "url": "^SELECT information_schema.tables$",
-              "database_type": "^mysql$"
-            },
-            "annotations": {
-              "aws.remote.operation": "^SELECT$",
-              "aws.local.operation": "^GET mysql$",
-              "aws.remote.resource.type": "^DB::Connection$",
-              "aws.remote.resource.identifier": "{{remoteResourceIdentifier}}",
-              "aws.remote.service": "^mysql$",
-              "aws.local.service": "^{{serviceName}}$"
-            },
-            "metadata": {
-              "default": {
-                "aws.span.kind": "^CLIENT$",
-                "db.sql.table": "^tables$",
-                "db.operation": "^SELECT$"
+                "EKS.Cluster": "^e2e-python-canary-test$",
+                "PlatformType": "^AWS::EKS$"
               }
             },
             "namespace": "^remote$"
           }
         ]
       }
-    ]
-  }
-]
+    },
+    {
+      "Document": {
+        "name": "^mysql$",
+        "sql": {
+          "connection_string": "^localhost/information_schema$",
+          "url": "^SELECT$",
+          "sanitized_query": "^SELECT * FROM tables LIMIT 1;$",
+          "database_type": "^mysql$",
+          "user": "^admin$"
+        },
+        "annotations": {
+          "aws.local.service": "^mysql$",
+          "aws.local.operation": "^SELECT$",
+          "aws.local.resource.identifier": "^{{remoteResourceIdentifier}}$",
+          "aws.local.resource.type": "^DB::Connection$"
+        },
+        "origin": "^Database::SQL$"
+      }
+    }
+  ]
+}
