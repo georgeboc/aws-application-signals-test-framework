@@ -16,7 +16,7 @@
         "sql": {
           "connection_string": "^localhost/information_schema$",
           "url": "^SELECT$",
-          "sanitized_query": "^SELECT * FROM tables LIMIT 1;$",
+          "sanitized_query": "^SELECT \* FROM tables LIMIT 1;$",
           "database_type": "^mysql$"
         },
         "metadata": {
@@ -30,7 +30,7 @@
           "aws.local.service": "^{{serviceName}}$",
           "aws.local.operation": "^GET mysql$",
           "aws.remote.resource.type": "^DB::Connection$",
-          "aws.remote.resource.identifier": "^{remoteResourceIdentifier}}$",
+          "aws.remote.resource.identifier": "^{{remoteResourceIdentifier}}$",
           "aws.remote.service": "^mysql$",
           "aws.remote.operation": "^SELECT$"
         }
@@ -80,7 +80,7 @@
     "sql": {
       "connection_string": "^localhost/information_schema$",
       "url": "^SELECT$",
-      "sanitized_query": "^SELECT * FROM tables LIMIT 1;$",
+      "sanitized_query": "^SELECT \* FROM tables LIMIT 1;$",
       "database_type": "^mysql$"
     },
     "annotations": {
