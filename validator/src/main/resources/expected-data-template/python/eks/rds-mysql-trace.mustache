@@ -53,20 +53,22 @@
       }
     },
     "metadata": {
-      "otel.resource.aws.log.group.names": "^/aws/containerinsights/e2e-python-canary-test/application$",
-      "otel.resource.service.name": "^{{serviceName}}$",
-      "aws.span.kind": "^LOCAL_ROOT$",
-      "otel.resource.cloud.platform": "^aws_eks$",
-      "EKS.Cluster": "^e2e-python-canary-test$",
-      "otel.resource.telemetry.sdk.name": "^opentelemetry$",
-      "otel.resource.ec2.tag.kubernetes.io/cluster/e2e-python-canary-test": "^owned$",
-      "otel.resource.k8s.container.name": "^back-end$",
-      "otel.resource.cloud.account.id": "^{{accountId}}$",
-      "http.route": "^mysql$",
-      "PlatformType": "^AWS::EKS$",
-      "otel.resource.telemetry.sdk.language": "^python$",
-      "otel.resource.K8s.Workload": "^{{serviceName}}$",
-      "otel.resource.cloud.provider": "^aws$"
+      "default": {
+        "otel.resource.aws.log.group.names": "^/aws/containerinsights/e2e-python-canary-test/application$",
+        "otel.resource.service.name": "^{{serviceName}}$",
+        "aws.span.kind": "^LOCAL_ROOT$",
+        "otel.resource.cloud.platform": "^aws_eks$",
+        "EKS.Cluster": "^e2e-python-canary-test$",
+        "otel.resource.telemetry.sdk.name": "^opentelemetry$",
+        "otel.resource.ec2.tag.kubernetes.io/cluster/e2e-python-canary-test": "^owned$",
+        "otel.resource.k8s.container.name": "^back-end$",
+        "otel.resource.cloud.account.id": "^{{accountId}}$",
+        "http.route": "^mysql$",
+        "PlatformType": "^AWS::EKS$",
+        "otel.resource.telemetry.sdk.language": "^python$",
+        "otel.resource.K8s.Workload": "^{{serviceName}}$",
+        "otel.resource.cloud.provider": "^aws$"
+      }
     },
     "annotations": {
       "aws.local.service": "^{{serviceName}}$",
