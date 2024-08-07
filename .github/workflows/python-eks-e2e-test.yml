@@ -108,7 +108,7 @@ jobs:
         uses: aws-actions/aws-secretsmanager-get-secrets@v1
         with:
           secret-ids:
-            RDS_MYSQL_CLUSTER_SECRETS, test
+            TEST_CREDENTIALS_SECRETS_MANAGER, test
           parse-json-secrets: true
 
       # If the workflow is running as a canary, then we want to log in to the aws account in the appropriate region
