@@ -82,20 +82,6 @@ jobs:
           cleanup: "rm -f enable-app-signals.sh && rm -f clean-app-signals.sh"
           post-command: "chmod +x enable-app-signals.sh && chmod +x clean-app-signals.sh"
 
-      # We do not want to delete the log group as it contains logs from other sources as well as information that could help us diagnose if the workflow run fails
-      - name: Remove log group deletion command
-        if: always()
-        working-directory: enablement-script
-        run: |
-          delete_log_group="aws logs delete-log-group --log-group-name '${{ env.LOG_GROUP_NAME }}' --region \$REGION"
-          sed -i "s#$delete_log_group##g" clean-app-signals.sh
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::${{ env.E2E_TEST_ACCOUNT_ID }}:role/${{ env.E2E_TEST_ROLE_NAME }}
-          aws-region: us-east-1
-
       - name: Test get credentials from SecretsManager
         continue-on-error: false
         uses: aws-actions/aws-secretsmanager-get-secrets@v1
