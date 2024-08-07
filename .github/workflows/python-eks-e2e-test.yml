@@ -87,7 +87,7 @@ jobs:
         uses: aws-actions/aws-secretsmanager-get-secrets@v1
         with:
           secret-ids:
-            RDS_MYSQL_CLUSTER_SECRETS, "test"
+            RDS_MYSQL_CLUSTER_SECRETS, test
           parse-json-secrets: true
 
       - name: Retrieve account
