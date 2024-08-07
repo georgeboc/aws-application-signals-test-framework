@@ -81,6 +81,20 @@ jobs:
           cleanup: "rm -f enable-app-signals.sh && rm -f clean-app-signals.sh"
           post-command: "chmod +x enable-app-signals.sh && chmod +x clean-app-signals.sh"
 
+      # We do not want to delete the log group as it contains logs from other sources as well as information that could help us diagnose if the workflow run fails
+      - name: Remove log group deletion command
+        if: always()
+        working-directory: enablement-script
+        run: |
+          delete_log_group="aws logs delete-log-group --log-group-name '${{ env.LOG_GROUP_NAME }}' --region \$REGION"
+          sed -i "s#$delete_log_group##g" clean-app-signals.sh
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ env.E2E_TEST_ACCOUNT_ID }}:role/${{ env.E2E_TEST_ROLE_NAME }}
+          aws-region: us-east-1
+
       - name: Retrieve account
         uses: aws-actions/aws-secretsmanager-get-secrets@v1
         with:
@@ -88,6 +102,14 @@ jobs:
             ACCOUNT_ID, region-account/${{ env.E2E_TEST_AWS_REGION }}
             PYTHON_MAIN_SAMPLE_APP_IMAGE, e2e-test/python-main-sample-app-image
             PYTHON_REMOTE_SAMPLE_APP_IMAGE, e2e-test/python-remote-sample-app-image
+
+      - name: Test get credentials from SecretsManager
+        continue-on-error: false
+        uses: aws-actions/aws-secretsmanager-get-secrets@v1
+        with:
+          secret-ids:
+            RDS_MYSQL_CLUSTER_SECRETS, test
+          parse-json-secrets: true
 
       # If the workflow is running as a canary, then we want to log in to the aws account in the appropriate region
       - name: Configure AWS Credentials
