@@ -82,14 +82,6 @@ jobs:
           cleanup: "rm -f enable-app-signals.sh && rm -f clean-app-signals.sh"
           post-command: "chmod +x enable-app-signals.sh && chmod +x clean-app-signals.sh"
 
-      - name: Test get credentials from SecretsManager
-        continue-on-error: false
-        uses: aws-actions/aws-secretsmanager-get-secrets@v1
-        with:
-          secret-ids:
-            RDS_MYSQL_CLUSTER_SECRETS, test
-          parse-json-secrets: true
-
       - name: Retrieve account
         uses: aws-actions/aws-secretsmanager-get-secrets@v1
         with:
@@ -105,6 +97,14 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::${{ env.ACCOUNT_ID }}:role/${{ env.E2E_TEST_ROLE_NAME }}
           aws-region: ${{ env.E2E_TEST_AWS_REGION }}
+
+      - name: Test get credentials from SecretsManager
+        continue-on-error: false
+        uses: aws-actions/aws-secretsmanager-get-secrets@v1
+        with:
+          secret-ids:
+            RDS_MYSQL_CLUSTER_SECRETS, test
+          parse-json-secrets: true
 
       # local directory to store the kubernetes config
       - name: Create kubeconfig directory
