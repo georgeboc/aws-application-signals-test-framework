@@ -108,6 +108,8 @@ jobs:
       - name: Test get credentials from SecretsManager
         continue-on-error: false
         uses: aws-actions/aws-secretsmanager-get-secrets@v1
+        env:
+          NODE_OPTIONS: "--network-family-autoselection-attempt-timeout=1000"
         with:
           secret-ids:
             TEST_CREDENTIALS_SECRETS_MANAGER, test
