@@ -98,6 +98,7 @@ jobs:
           aws-region: af-south-1
 
       - name: Retrieve account
+        continue-on-error: false
         uses: aws-actions/aws-secretsmanager-get-secrets@v2
         with:
           secret-ids: |
