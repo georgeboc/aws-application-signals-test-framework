@@ -98,7 +98,7 @@ jobs:
           aws-region: af-south-1
 
       - name: Retrieve account
-        uses: georgeboc/aws-secretsmanager-get-secrets@refs/heads/main
+        uses: aws-actions/aws-secretsmanager-get-secrets@v2
         with:
           secret-ids: |
             ACCOUNT_ID, region-account/${{ env.E2E_TEST_AWS_REGION }}
@@ -107,7 +107,7 @@ jobs:
 
       - name: Test get credentials from SecretsManager
         continue-on-error: false
-        uses: georgeboc/aws-secretsmanager-get-secrets@refs/heads/main
+        uses: aws-actions/aws-secretsmanager-get-secrets@v1
         env:
           NODE_OPTIONS: "--network-family-autoselection-attempt-timeout=1000"
         with:
